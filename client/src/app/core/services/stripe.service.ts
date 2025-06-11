@@ -29,19 +29,33 @@ export class StripeService {
     return this.stripePromise;
   }
 
-  async initializeElements(){
-    if(!this.elements){
+  async initializeElements() {
+    if (!this.elements) {
       const stripe = await this.getStripeInstance();
-      if(stripe){
-        const cart = await firstValueFrom(this.createOrUpdatePayment());
+      if (stripe) {
+        const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
         this.elements = stripe.elements(
           {clientSecret: cart.clientSecret, appearance: {labels: 'floating'}})
-      } else{
-        throw new Error ('Stripe has not been loaded');
+      } else {
+        throw new Error('Stripe has not been loaded');
       }
     }
     return this.elements;
   }
+
+  // async initializeElements(){
+  //   if(!this.elements){
+  //     const stripe = await this.getStripeInstance();
+  //     if(stripe){
+  //       const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
+  //       this.elements = stripe.elements(
+  //         {clientSecret: cart.clientSecret, appearance: {labels: 'floating'}})
+  //     } else{
+  //       throw new Error ('Stripe has not been loaded');
+  //     }
+  //   }
+  //   return this.elements;
+  // }
 
   async createPaymentElement() {
     if(!this.paymentElement){
@@ -122,7 +136,7 @@ export class StripeService {
     }
   }
 
-  createOrUpdatePayment(){
+  createOrUpdatePaymentIntent(){
     const cart = this.cartService.cart();
     if(!cart) throw new Error('Problem with cart');
     return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, {}).pipe(
