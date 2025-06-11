@@ -1,1 +1,4 @@
-{}
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/31b10f40-cbef-4a9e-8e2a-f21803420ef6/resourceGroups/eagle-2025-rg/providers/Microsoft.Web/sites/eagle",
+    "appService.deploySubpath": "API\\bin\\Publish"
+}
