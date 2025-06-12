@@ -15,7 +15,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork unit) : Base
     [HttpPost]
     public async Task<ActionResult<Order>> CreateOrder(CreateOrderDto orderDto)
     {
-        var email = User.GetEmail();
+        var email = User.GetEmail(); //.
 
         var cart = await cartService.GetCartAsync(orderDto.CartId);
 
